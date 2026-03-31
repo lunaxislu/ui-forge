@@ -1,0 +1,176 @@
+# UIForge Architecture
+
+This document explains the current architecture of `uiforge`.
+
+Its purpose is to help a developer or coding agent quickly understand:
+
+- why the repository is split into multiple packages
+- what each package owns
+- where component and dependency changes belong
+- how package-local component updates are expected to be run
+
+It documents the current structure. It is not a task list or roadmap.
+
+## Architecture Overview
+
+`uiforge` is a `pnpm` + `turbo` monorepo with one consumer app and several workspace packages.
+
+```txt
+apps/
+  web/
+packages/
+  radix-ui/
+  base-ui/
+  ui-shared/
+  eslint-config/
+  typescript-config/
+```
+
+The split between `radix-ui`, `base-ui`, and `ui-shared` is intentional.
+
+- `radix-ui` owns the Radix-based component package
+- `base-ui` owns the Base UI-based component package
+- `ui-shared` owns primitive-agnostic shared utilities and shared styling infrastructure
+
+This structure should remain explicit. The repository should not collapse these responsibilities back into a single UI package.
+
+## Package Responsibilities
+
+### `apps/web`
+
+`apps/web` is the reference and consumer app.
+
+- It consumes workspace packages.
+- It does not own shared UI source of truth.
+- It exists to exercise and integrate the package outputs.
+- It may still contain app-local components when those components do not need to be shared with `radix-ui` or `base-ui`.
+
+### `packages/radix-ui`
+
+`packages/radix-ui` is the Radix-based component package.
+
+- It owns Radix-based component implementations.
+- It is maintained in its own package context.
+- Component additions and updates should be run against `packages/radix-ui`.
+- Package-local runtime logic that is tied to the Radix implementation belongs here.
+
+### `packages/base-ui`
+
+`packages/base-ui` is the Base UI-based component package.
+
+- It owns Base UI-based component implementations.
+- It is maintained in its own package context.
+- Component additions and updates should be run against `packages/base-ui`.
+- Package-local runtime logic that is tied to the Base UI implementation belongs here.
+
+### `packages/ui-shared`
+
+`packages/ui-shared` is the shared package.
+
+- It owns primitive-agnostic utilities.
+- It owns shared styling infrastructure.
+- It stores the shared `lib` and `hooks` targets referenced by package `components.json` files.
+- It is the shared destination for shadcn CLI-generated `lib` and `hooks` outputs used by `radix-ui` and `base-ui`.
+- It should stay focused on shared concerns.
+- Primitive-specific component logic does not belong here.
+
+## Styling Architecture
+
+Shared styling infrastructure is intentionally owned by `ui-shared`.
+
+Current shared styling entrypoints:
+
+- `@workspace/ui-shared/globals.css`
+- `@workspace/ui-shared/postcss.config`
+
+This ownership exists to keep the app and component packages structurally decoupled from a single primitive implementation.
+
+In practice, this means:
+
+- `apps/web` consumes shared styling from `ui-shared`
+- `radix-ui` and `base-ui` also point to shared styling infrastructure
+- primitive packages do not act as the long-term owner of global style infrastructure
+
+The goal of this decision is architectural neutrality. Shared styling belongs to the neutral package, not to `radix-ui` or `base-ui`.
+
+## Dependency Placement Rules
+
+Dependencies should follow ownership, not convenience.
+
+### Put shared dependencies in `ui-shared`
+
+Examples:
+
+- primitive-agnostic utilities
+- shared styling infrastructure
+- shared Tailwind and PostCSS support
+- shared `lib` and `hooks` support referenced by package `components.json` files
+
+### Keep primitive-specific dependencies in the owning package
+
+Examples:
+
+- Radix-specific runtime and component logic in `radix-ui`
+- Base UI-specific runtime and component logic in `base-ui`
+
+### Dependency rule of thumb
+
+If a package imports a library directly in its own source code, that package should own the dependency directly.
+
+Depending on `@workspace/ui-shared` means the package may use what `ui-shared` exports. It does not mean that every transitive dependency inside `ui-shared` becomes a direct dependency for other packages.
+
+In this repository, `ui-shared` is not a generic dumping ground for unrelated shared code. It is the shared home for the `lib` and `hooks` targets referenced by the package `components.json` files, along with the shared styling infrastructure those packages consume.
+
+## Component Package Maintenance
+
+`radix-ui` and `base-ui` are both maintained as package-local component packages through their own `components.json` files.
+
+The distinction between them is not the maintenance workflow. The distinction is the primitive layer each package is built around.
+
+- `radix-ui` is the Radix-based package
+- `base-ui` is the Base UI-based package
+
+When a package-specific library or component set needs updating, perform the update in the owning package directory.
+
+- update `radix-ui` from `packages/radix-ui`
+- update `base-ui` from `packages/base-ui`
+
+`apps/web` is not the maintenance context for either component package.
+
+This rule applies to both:
+
+- component additions or refreshes through shadcn CLI
+- package-library updates for the primitive stack owned by that package
+
+In practice:
+
+- update Radix-side libraries from `packages/radix-ui`
+- update Base UI-side libraries from `packages/base-ui`
+
+### shadcn CLI examples
+
+Run package updates against the package that owns the components.
+
+`radix-ui`:
+
+```bash
+pnpm dlx shadcn@latest add button --cwd packages/radix-ui
+pnpm dlx shadcn@latest add --all --cwd packages/radix-ui
+```
+
+`base-ui`:
+
+```bash
+pnpm dlx shadcn@latest add button --cwd packages/base-ui
+pnpm dlx shadcn@latest add --all --cwd packages/base-ui
+```
+
+These commands are examples of package ownership and maintenance context. They are not a roadmap or recommendation sequence.
+
+## Current Exception
+
+There is currently an intentional exception in the Radix package.
+
+- `packages/radix-ui/src/components/combobox.tsx` uses `@base-ui/react`
+
+This is a documented exception to the general package-boundary rule. It should be understood as a current allowed exception, not as the default model for package ownership.
