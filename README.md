@@ -82,6 +82,11 @@ Library updates should follow the same ownership rule:
 - update Radix-side package libraries from `packages/radix-ui`
 - update Base UI-side package libraries from `packages/base-ui`
 
+## Testing Notes
+
+Vitest is configured at the repository root and collects tests from both `apps/*` and `packages/*`.
+Playwright end-to-end testing is owned by `apps/web`.
+
 ## Architecture Notes
 
 The detailed architecture, package boundaries, styling ownership, and package maintenance rules are documented in [`docs/architecture.md`](docs/architecture.md).

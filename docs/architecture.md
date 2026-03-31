@@ -167,6 +167,37 @@ pnpm dlx shadcn@latest add --all --cwd packages/base-ui
 
 These commands are examples of package ownership and maintenance context. They are not a roadmap or recommendation sequence.
 
+## Testing Architecture
+
+Testing is split by test type.
+
+### Vitest
+
+Vitest is configured at the workspace root.
+
+- run unit and component tests from the repository root
+- collect tests from both `apps/*` and `packages/*`
+- keep global test setup in the root Vitest configuration
+
+This keeps test execution consistent across the monorepo while avoiding duplicated runner configuration in each workspace.
+
+Workspace-specific test helpers should remain in the owning workspace.
+
+- app-specific render helpers belong in `apps/web`
+- package-specific test helpers belong in the owning package
+
+Root-level test utilities should stay limited to helpers that are genuinely shared across both apps and packages.
+
+### Playwright
+
+Playwright is owned by `apps/web`.
+
+- keep the Playwright configuration in `apps/web`
+- keep end-to-end tests in `apps/web/e2e`
+- use Playwright to validate consumer-app behavior, not package-internal implementation details
+
+This keeps browser-based testing aligned with the actual app integration surface while allowing Vitest to remain the shared runner for lower-level tests.
+
 ## Current Exception
 
 There is currently an intentional exception in the Radix package.
