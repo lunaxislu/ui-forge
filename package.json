@@ -4,15 +4,20 @@
     "private": true,
     "scripts": {
         "build": "turbo build",
+        "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
         "dev": "turbo dev",
         "lint": "turbo lint",
         "format": "turbo format",
+        "prepare": "husky",
         "typecheck": "turbo typecheck"
     },
     "devDependencies": {
+        "@commitlint/cli": "^20.5.0",
+        "@commitlint/config-conventional": "^20.5.0",
         "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
         "@workspace/eslint-config": "workspace:*",
         "@workspace/typescript-config": "workspace:*",
+        "husky": "^9.1.7",
         "prettier": "^3.8.1",
         "prettier-plugin-tailwindcss": "^0.7.2",
         "turbo": "^2.8.17",
