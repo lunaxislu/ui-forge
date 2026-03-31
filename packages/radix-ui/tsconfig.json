@@ -1,0 +1,12 @@
+{
+    "extends": "@workspace/typescript-config/react-library.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@workspace/radix-ui/*": ["./src/*"],
+            "@workspace/ui-shared/*": ["../../packages/ui-shared/src/*"]
+        }
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "exclude": ["node_modules", "dist"]
+}
