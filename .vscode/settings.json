@@ -1,0 +1,38 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "eslint.useFlatConfig": true,
+    "eslint.workingDirectories": [{ "pattern": "apps/*/" },
+     { "pattern": "packages/*/" }],
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/.turbo": true,
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/.next": true
+    },
+    "search.exclude": {
+        "**/.turbo": true,
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/.next": true,
+        "**/coverage": true,
+        "**/pnpm-lock.yaml": true
+    },
+    "files.watcherExclude": {
+        "**/.turbo/**": true,
+        "**/node_modules/**": true,
+        "**/dist/**": true,
+        "**/.next/**": true,
+        "**/coverage/**": true
+    },
+    "tailwindCSS.classFunctions": ["cva", "cn"],
+    "vitest.debugExclude": ["<node_internals>/**", "**/node_modules/**", "**/fixtures/**"]
+}
