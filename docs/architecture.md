@@ -198,9 +198,82 @@ Playwright is owned by `apps/web`.
 
 This keeps browser-based testing aligned with the actual app integration surface while allowing Vitest to remain the shared runner for lower-level tests.
 
-## Current Exception
+## Tooling Configuration
 
-There is currently an intentional exception in the Radix package.
+### ESLint
+
+Each workspace uses a preset from `@workspace/eslint-config`.
+
+| Workspace | Preset |
+|-----------|--------|
+| `packages/radix-ui` | `react-internal` |
+| `packages/base-ui` | `react-internal` |
+| `packages/ui-shared` | `react-internal` |
+| `apps/web` | `next-js` |
+
+The `base` preset is available for non-React contexts. Do not mix presets across the wrong workspace type.
+
+### TypeScript
+
+Each workspace extends a config from `@workspace/typescript-config`.
+
+| Workspace | Config |
+|-----------|--------|
+| `packages/radix-ui` | `react-library.json` |
+| `packages/base-ui` | `react-library.json` |
+| `packages/ui-shared` | `react-library.json` |
+| `apps/web` | `nextjs.json` |
+| root `tsconfig.json` | `base.json` |
+
+### Prettier and Tailwind Class Sorting
+
+Prettier is configured at the repository root with two plugins:
+
+- `@ianvs/prettier-plugin-sort-imports` — enforces the import order defined in `.prettierrc`
+- `prettier-plugin-tailwindcss` — sorts Tailwind utility classes
+
+The Tailwind class sorter is configured with:
+
+```json
+"tailwindStylesheet": "packages/ui-shared/src/styles/globals.css",
+"tailwindFunctions": ["cn", "cva"]
+```
+
+This means the class sort order for all packages is determined by `packages/ui-shared/src/styles/globals.css`. This is a deliberate extension of the `ui-shared` styling ownership model — even the formatter enforces the shared style contract.
+
+When adding new Tailwind utilities or layers to the shared stylesheet, be aware that it affects class ordering across the entire repository.
+
+## Git Workflow
+
+Commits are enforced through Husky and commitlint.
+
+- **Husky** runs the commitlint check as a commit-msg hook
+- **commitlint** uses `@commitlint/config-conventional`
+- All commit messages must follow [Conventional Commits](https://www.conventionalcommits.org/) format
+
+Common prefixes: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `build:`, `ci:`
+
+Commits that do not follow the convention will be rejected at the hook stage.
+
+## Turbo Pipeline
+
+Tasks are defined in `turbo.json`. Key behaviors:
+
+| Task | Caching | Notes |
+|------|---------|-------|
+| `build` | Yes | Depends on `^build` (upstream first); outputs `.next/**` |
+| `lint` | Yes | Depends on `^lint` |
+| `format` | Yes | Depends on `^format` |
+| `typecheck` | Yes | Depends on `^typecheck` |
+| `test` | Yes | Depends on `^test` |
+| `test:e2e` | **No** | Always runs; reads `CI` env variable |
+| `dev` | **No** | Persistent mode |
+
+`test:e2e` is never cached. Every invocation runs the full Playwright suite against the running dev server.
+
+## Known Exceptions
+
+### `combobox.tsx` uses `@base-ui/react` in the Radix package
 
 - `packages/radix-ui/src/components/combobox.tsx` uses `@base-ui/react`
 
