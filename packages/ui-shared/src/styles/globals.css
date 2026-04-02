@@ -4,9 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 @source "../../../../apps/**/*.{ts,tsx}";
-@source "../../../../packages/ui/**/*.{ts,tsx}";
+@source "../../../../packages/ui-shared/src/**/*.{ts,tsx}";
+@source "../../../../packages/base-ui/src/**/*.{ts,tsx}";
+@source "../../../../packages/radix-ui/src/**/*.{ts,tsx}";
 
 @theme inline {
+    --spacing: 0.25rem /* 4px */;
     --font-heading: var(--font-sans);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -125,4 +128,45 @@
   body {
     @apply bg-background text-foreground;
     }
+}
+
+@layer components {
+  [data-line-numbers] {
+    display: grid;
+    min-width: 100%;
+    white-space: pre;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
+
+  [data-line-numbers] [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: calc(var(--spacing) * 16);
+    padding-right: calc(var(--spacing) * 6);
+    text-align: right;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    user-select: none;
+  }
+
+  [data-line] {
+    padding-top: calc(var(--spacing) * 0.5);
+    padding-bottom: calc(var(--spacing) * 0.5);
+    min-height: calc(var(--spacing) * 1);
+    width: 100%;
+    display: inline-block;
+  }
+
+  [data-line] span {
+    color: var(--shiki-light);
+  }
+
+  .dark [data-line] span {
+    color: var(--shiki-dark) !important;
+  }
 }
