@@ -10,11 +10,77 @@ type SectionFile = {
 }
 
 export const sectionFiles = {
-    docsSection: [
-
+    basic: [
+        {
+            filename: "app/basic-drawer",
+            relativePath: "app/(examples)/base-ui/drawer/_components/basic-drawer.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer.tsx",
+            relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
     ],
-    fileTree: [
-
+    directions: [
+        {
+            filename: "app/drawer-directions",
+            relativePath: "app/(examples)/base-ui/drawer/_components/drawer-directions.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer.tsx",
+            relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
+    ],
+    responsive: [
+        {
+            filename: "app/drawer-responsive",
+            relativePath: "app/(examples)/base-ui/drawer/_components/drawer-responsive.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer.tsx",
+            relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
+    ],
+    rtl: [
+        {
+            filename: "app/rtl-drawer",
+            relativePath: "app/(examples)/base-ui/drawer/_components/drawer-rtl.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer.tsx",
+            relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
+    ],
+    advancedTopBottom: [
+        {
+            filename: "app/drawer-swipe.tsx",
+            relativePath: "app/(examples)/base-ui/drawer/_components/drawer-top-bottom.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer.tsx",
+            relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
+    ],
+    advancedLeftRight: [
+        {
+            filename: "app/drawer-swipe.tsx",
+            relativePath: "app/(examples)/base-ui/drawer/_components/drawer-left-right.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer.tsx",
+            relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
     ],
 } satisfies Record<string, SectionFile[]>
 
