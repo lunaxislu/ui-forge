@@ -147,6 +147,14 @@ In practice:
 - update Radix-side libraries from `packages/radix-ui`
 - update Base UI-side libraries from `packages/base-ui`
 
+### Temporary app-local consumer exception
+
+`apps/web` may temporarily carry app-local component copies and direct dependencies when the app is being used as a review surface for a package PR.
+
+- use app-local implementations only for that temporary demo surface
+- keep the exception scoped to the review workflow
+- once the Base UI Drawer PR is merged, move consumption back to the owning package and remove the temporary app-local dependency path
+
 ### shadcn CLI examples
 
 Run package updates against the package that owns the components.
