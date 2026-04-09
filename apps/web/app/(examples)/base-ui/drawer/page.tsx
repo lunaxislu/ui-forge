@@ -33,7 +33,7 @@ export default async function Page() {
                 <p className="text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">Base UI</p>
                 <h1 className="text-3xl font-semibold tracking-tight text-foreground">Drawer</h1>
                 <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                    A minimal reference page for the Base UI drawer wrapper.
+                    replace vaul drawer with base-ui drawer
                 </p>
             </header>
             <div className="flex flex-col gap-12">
