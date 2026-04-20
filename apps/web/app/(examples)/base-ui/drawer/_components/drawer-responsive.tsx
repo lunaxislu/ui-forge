@@ -19,7 +19,6 @@ import {
     DrawerDescription,
     DrawerFooter,
     DrawerHeader,
-    DrawerPopup,
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
@@ -55,21 +54,19 @@ export function DrawerResponsiveDemo() {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger render={<Button variant="outline">Edit profile</Button>} />
-            <DrawerPopup>
-                <DrawerContent>
-                    <DrawerHeader className="text-left">
-                        <DrawerTitle>Edit profile</DrawerTitle>
-                        <DrawerDescription>
-                            Make changes to your profile here. Click save when you&apos;re done.
-                        </DrawerDescription>
-                    </DrawerHeader>
-                    <ProfileForm className="px-4" />
-                    <DrawerFooter className="pt-2">
-                        <DrawerClose render={<Button variant="outline">Cancel</Button>} />
-                        <Button>Save changes</Button>
-                    </DrawerFooter>
-                </DrawerContent>
-            </DrawerPopup>
+            <DrawerContent>
+                <DrawerHeader className="text-left">
+                    <DrawerTitle>Edit profile</DrawerTitle>
+                    <DrawerDescription>
+                        Make changes to your profile here. Click save when you&apos;re done.
+                    </DrawerDescription>
+                </DrawerHeader>
+                <ProfileForm className="px-4" />
+                <DrawerFooter className="pt-2">
+                    <DrawerClose render={<Button variant="outline">Cancel</Button>} />
+                    <Button>Save changes</Button>
+                </DrawerFooter>
+            </DrawerContent>
         </Drawer>
     )
 }

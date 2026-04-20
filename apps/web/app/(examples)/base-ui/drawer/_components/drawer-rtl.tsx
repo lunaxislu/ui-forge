@@ -13,7 +13,6 @@ import {
     DrawerDescription,
     DrawerFooter,
     DrawerHeader,
-    DrawerPopup,
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
@@ -116,74 +115,72 @@ export function DrawerRtlDemo() {
 
                 <Drawer>
                     <DrawerTrigger render={<Button variant="outline">{t.trigger}</Button>} />
-                    <DrawerPopup dir={t.dir} data-lang={language}>
-                        <DrawerContent>
-                            <div className="mx-auto w-full max-w-sm">
-                                <DrawerHeader>
-                                    <DrawerTitle>{t.title}</DrawerTitle>
-                                    <DrawerDescription>{t.description}</DrawerDescription>
-                                </DrawerHeader>
-                                <div className="p-4 pb-0">
-                                    <div className="flex items-center justify-center space-x-2">
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="h-8 w-8 shrink-0 rounded-full"
-                                            onClick={() => onClick(-10)}
-                                            disabled={goal <= 200}
-                                        >
-                                            <Minus />
-                                            <span className="sr-only">{t.decrease}</span>
-                                        </Button>
-                                        <div className="flex-1 text-center">
-                                            <div className="text-7xl font-bold tracking-tighter">
-                                                {goal.toLocaleString(t.locale)}
-                                            </div>
-                                            <div className="text-[0.70rem] text-muted-foreground uppercase">
-                                                {t.caloriesPerDay}
-                                            </div>
+                    <DrawerContent dir={t.dir} data-lang={language}>
+                        <div className="mx-auto w-full max-w-sm">
+                            <DrawerHeader>
+                                <DrawerTitle>{t.title}</DrawerTitle>
+                                <DrawerDescription>{t.description}</DrawerDescription>
+                            </DrawerHeader>
+                            <div className="p-4 pb-0">
+                                <div className="flex items-center justify-center space-x-2">
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0 rounded-full"
+                                        onClick={() => onClick(-10)}
+                                        disabled={goal <= 200}
+                                    >
+                                        <Minus />
+                                        <span className="sr-only">{t.decrease}</span>
+                                    </Button>
+                                    <div className="flex-1 text-center">
+                                        <div className="text-7xl font-bold tracking-tighter">
+                                            {goal.toLocaleString(t.locale)}
                                         </div>
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="h-8 w-8 shrink-0 rounded-full"
-                                            onClick={() => onClick(10)}
-                                            disabled={goal >= 400}
-                                        >
-                                            <Plus />
-                                            <span className="sr-only">{t.increase}</span>
-                                        </Button>
+                                        <div className="text-[0.70rem] text-muted-foreground uppercase">
+                                            {t.caloriesPerDay}
+                                        </div>
                                     </div>
-                                    <div className="mt-3 h-30">
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={data}>
-                                                <XAxis
-                                                    dataKey="goal"
-                                                    tickLine={false}
-                                                    tickMargin={10}
-                                                    axisLine={false}
-                                                    tickFormatter={(value) => value.toLocaleString(t.locale)}
-                                                    reversed={t.dir === "rtl"}
-                                                />
-                                                <Bar
-                                                    dataKey="goal"
-                                                    style={
-                                                        {
-                                                            fill: "var(--chart-2)",
-                                                        } as React.CSSProperties
-                                                    }
-                                                />
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    </div>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0 rounded-full"
+                                        onClick={() => onClick(10)}
+                                        disabled={goal >= 400}
+                                    >
+                                        <Plus />
+                                        <span className="sr-only">{t.increase}</span>
+                                    </Button>
                                 </div>
-                                <DrawerFooter>
-                                    <Button>{t.submit}</Button>
-                                    <DrawerClose render={<Button variant="outline">{t.cancel}</Button>} />
-                                </DrawerFooter>
+                                <div className="mt-3 h-30">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <BarChart data={data}>
+                                            <XAxis
+                                                dataKey="goal"
+                                                tickLine={false}
+                                                tickMargin={10}
+                                                axisLine={false}
+                                                tickFormatter={(value) => value.toLocaleString(t.locale)}
+                                                reversed={t.dir === "rtl"}
+                                            />
+                                            <Bar
+                                                dataKey="goal"
+                                                style={
+                                                    {
+                                                        fill: "var(--chart-2)",
+                                                    } as React.CSSProperties
+                                                }
+                                            />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </div>
                             </div>
-                        </DrawerContent>
-                    </DrawerPopup>
+                            <DrawerFooter>
+                                <Button>{t.submit}</Button>
+                                <DrawerClose render={<Button variant="outline">{t.cancel}</Button>} />
+                            </DrawerFooter>
+                        </div>
+                    </DrawerContent>
                 </Drawer>
             </div>
         </DirectionProvider>
