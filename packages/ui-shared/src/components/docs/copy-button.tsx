@@ -2,14 +2,29 @@
 
 import * as React from "react"
 import { Check, Copy } from "lucide-react"
+import { sendGAEvent } from "@next/third-parties/google"
+
 import { cn } from "../../lib/utils"
 
 interface CopyButtonProps {
     code: string
     className?: string
+    category: string
+    sectionName: string
+    pagePath: string
+    filename: string
+    source: "code_block" | "file_tree"
 }
 
-export function CopyButton({ code, className }: CopyButtonProps) {
+export function CopyButton({
+    code,
+    className,
+    category,
+    sectionName,
+    pagePath,
+    filename,
+    source,
+}: CopyButtonProps) {
     const [copied, setCopied] = React.useState(false)
     const timeoutRef = React.useRef<number | null>(null)
 
@@ -23,6 +38,15 @@ export function CopyButton({ code, className }: CopyButtonProps) {
 
     async function copy() {
         await navigator.clipboard.writeText(code)
+
+        sendGAEvent("event", "docs_code_copy", {
+            docs_category: category,
+            docs_section_name: sectionName,
+            docs_page_path: pagePath,
+            docs_filename: filename,
+            docs_interaction_source: source,
+        })
+
         setCopied(true)
 
         if (timeoutRef.current !== null) {

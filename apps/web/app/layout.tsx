@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google"
-import { GoogleAnalytics } from "@next/third-parties/google"
 
+import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import "@workspace/ui-shared/styles/globals.css"
@@ -14,7 +14,7 @@ const fontMono = Geist_Mono({
     variable: "--font-mono",
 })
 const gaId = process.env.NEXT_PUBLIC_GA_ID
-const isProduction = process.env.VERCEL_ENV === "production"
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -28,7 +28,7 @@ export default function RootLayout({
         >
             <body>
                 <ThemeProvider>{children}</ThemeProvider>
-                {isProduction && gaId && <GoogleAnalytics gaId={gaId} />}
+                <Analytics gaId={process.env.VERCEL_ENV === "production" ? gaId : undefined} />
             </body>
         </html>
     )

@@ -1,7 +1,7 @@
 "use client"
 
-import type { ReactNode } from "react"
-import { useState } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
+import { sendGAEvent } from "@next/third-parties/google"
 
 import { cn } from "../../lib/utils"
 
@@ -11,12 +11,74 @@ interface DocSectionProps {
     code: ReactNode
     description?: string
     className?: string
+    category: string
+    sectionName: string
+    pagePath: string
 }
-export function DocSection({ title, description, preview, code, className }: DocSectionProps) {
+export function DocSection({
+    title,
+    description,
+    preview,
+    code,
+    className,
+    category,
+    sectionName,
+    pagePath,
+}: DocSectionProps) {
     const [activeTab, setActiveTab] = useState<"preview" | "code">("preview")
+    const sectionRef = useRef<HTMLElement | null>(null)
+
+    useEffect(() => {
+        const node = sectionRef.current
+
+        if (!node) {
+            return
+        }
+
+        let hasTracked = false
+
+        const trackView = () => {
+            if (hasTracked) {
+                return
+            }
+
+            hasTracked = true
+
+            sendGAEvent("event", "docs_example_view", {
+                docs_category: category,
+                docs_section_name: sectionName,
+                docs_page_path: pagePath,
+            })
+        }
+
+        if (typeof IntersectionObserver === "undefined") {
+            trackView()
+            return
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry || !entry.isIntersecting) {
+                    return
+                }
+
+                trackView()
+                observer.disconnect()
+            },
+            {
+                threshold: 0.6,
+            },
+        )
+
+        observer.observe(node)
+
+        return () => {
+            observer.disconnect()
+        }
+    }, [category, pagePath, sectionName])
 
     return (
-        <section className={cn("flex flex-col gap-4", className)}>
+        <section ref={sectionRef} className={cn("flex flex-col gap-4", className)}>
             <div className="flex flex-col gap-1">
                 <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
                 {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}

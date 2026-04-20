@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { sendGAEvent } from "@next/third-parties/google"
 
 import { CopyButton } from "./copy-button"
 import { TreeNodeClient } from "./tree-node-client"
@@ -20,9 +21,15 @@ type TreeNodeData = {
 export function FileTreeCode({
     filesData,
     filesWithHtml,
+    category,
+    sectionName,
+    pagePath,
 }: {
     filesData: FileEntry[]
     filesWithHtml: { filename: string; html: string; lineCount: number }[]
+    category: string
+    sectionName: string
+    pagePath: string
 }) {
     const [selectedFile, setSelectedFile] = useState(filesData[0]?.filename)
 
@@ -59,13 +66,25 @@ export function FileTreeCode({
     const selectedFileData = filesWithHtml.find((file) => file.filename === selectedFile)
     const selectedCodeData = filesData.find((file) => file.filename === selectedFile)
 
+    function handleSelectFile(nextFile: string) {
+        setSelectedFile(nextFile)
+
+        sendGAEvent("event", "docs_file_select", {
+            docs_category: category,
+            docs_section_name: sectionName,
+            docs_page_path: pagePath,
+            docs_filename: nextFile,
+            docs_interaction_source: "file_tree",
+        })
+    }
+
     return (
         <div className="flex h-150 overflow-hidden rounded-lg border bg-background">
             <div className="w-64 overflow-y-auto border-r bg-muted">
                 <div className="sticky top-0 flex h-12 items-center border-b bg-muted/60 px-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase backdrop-blur-sm">
                     Files
                 </div>
-                <TreeNodeClient node={tree} filename={selectedFile} onSelectFile={setSelectedFile} />
+                <TreeNodeClient node={tree} filename={selectedFile} onSelectFile={handleSelectFile} />
             </div>
 
             <div className="flex flex-1 flex-col overflow-hidden bg-background">
@@ -75,7 +94,14 @@ export function FileTreeCode({
                             <span className="font-mono text-xs font-medium text-foreground/80">
                                 {selectedFile}
                             </span>
-                            <CopyButton code={selectedCodeData.code.trim()} />
+                            <CopyButton
+                                code={selectedCodeData.code.trim()}
+                                category={category}
+                                sectionName={sectionName}
+                                pagePath={pagePath}
+                                filename={selectedCodeData.filename}
+                                source="file_tree"
+                            />
                         </div>
                         <div className="flex-1 overflow-auto">
                             <div className="flex">

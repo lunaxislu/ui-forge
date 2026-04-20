@@ -6,7 +6,6 @@ export default function Page() {
      * Temporarily redirect the root route to /base-ui/drawer until the landing page is ready
      */
     redirect("/base-ui/drawer", RedirectType.replace)
-
     // return (
     //     <div className="flex min-h-svh p-6">
     //         <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">

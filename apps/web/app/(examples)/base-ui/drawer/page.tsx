@@ -10,6 +10,9 @@ import { DrawerDirectionsDemo } from "./_components/drawer-directions"
 import { DrawerResponsiveDemo } from "./_components/drawer-responsive"
 import { DrawerRtlDemo } from "./_components/drawer-rtl"
 
+const category = "drawer"
+const pagePath = "/base-ui/drawer"
+
 export default async function Page() {
     const [
         basicSectionFiles,
@@ -43,10 +46,16 @@ export default async function Page() {
                         title="Base/ui Drawer"
                         description="Open the drawer, adjust the goal, and compare the live preview with the source."
                         preview={<DrawerBasicDemo />}
+                        category={category}
+                        sectionName="Basic"
+                        pagePath={pagePath}
                         code={
                             <FileTreeCode
                                 filesData={basicSectionFiles.filesData}
                                 filesWithHtml={basicSectionFiles.filesWithHtml}
+                                category={category}
+                                sectionName="Basic"
+                                pagePath={pagePath}
                             />
                         }
                     />
@@ -54,10 +63,16 @@ export default async function Page() {
                         title="Directions"
                         description="Open the drawer from each side with the same wrapper surface."
                         preview={<DrawerDirectionsDemo />}
+                        category={category}
+                        sectionName="Directions"
+                        pagePath={pagePath}
                         code={
                             <FileTreeCode
                                 filesData={directionsSectionFiles.filesData}
                                 filesWithHtml={directionsSectionFiles.filesWithHtml}
+                                category={category}
+                                sectionName="Directions"
+                                pagePath={pagePath}
                             />
                         }
                     />
@@ -65,10 +80,16 @@ export default async function Page() {
                         title="Responsive"
                         description="Use dialog on desktop and drawer on mobile from one trigger."
                         preview={<DrawerResponsiveDemo />}
+                        category={category}
+                        sectionName="Responsive"
+                        pagePath={pagePath}
                         code={
                             <FileTreeCode
                                 filesData={responsiveSectionFiles.filesData}
                                 filesWithHtml={responsiveSectionFiles.filesWithHtml}
+                                category={category}
+                                sectionName="Responsive"
+                                pagePath={pagePath}
                             />
                         }
                     />
@@ -76,10 +97,16 @@ export default async function Page() {
                         title="RTL"
                         description="Switch between English, Arabic, and Hebrew in one drawer demo."
                         preview={<DrawerRtlDemo />}
+                        category={category}
+                        sectionName="RTL"
+                        pagePath={pagePath}
                         code={
                             <FileTreeCode
                                 filesData={rtlSectionFiles.filesData}
                                 filesWithHtml={rtlSectionFiles.filesWithHtml}
+                                category={category}
+                                sectionName="RTL"
+                                pagePath={pagePath}
                             />
                         }
                     />
@@ -101,10 +128,16 @@ export default async function Page() {
                                 className="block h-full w-full border-0 bg-background"
                             />
                         }
+                        category={category}
+                        sectionName="SwipeArea - Left / Right"
+                        pagePath={pagePath}
                         code={
                             <FileTreeCode
                                 filesData={advancedLeftRightSectionFiles.filesData}
                                 filesWithHtml={advancedLeftRightSectionFiles.filesWithHtml}
+                                category={category}
+                                sectionName="SwipeArea - Left / Right"
+                                pagePath={pagePath}
                             />
                         }
                     />
@@ -138,10 +171,16 @@ export default async function Page() {
                                 className="block h-full w-full border-0 bg-background"
                             />
                         }
+                        category={category}
+                        sectionName="SwipeArea - Top / Bottom"
+                        pagePath={pagePath}
                         code={
                             <FileTreeCode
                                 filesData={advancedTopBottomSectionFiles.filesData}
                                 filesWithHtml={advancedTopBottomSectionFiles.filesWithHtml}
+                                category={category}
+                                sectionName="SwipeArea - Top / Bottom"
+                                pagePath={pagePath}
                             />
                         }
                     />
