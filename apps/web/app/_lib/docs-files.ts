@@ -69,6 +69,11 @@ export const sectionFiles = {
             relativePath: "components/ui/drawer.tsx",
             lang: "tsx",
         },
+        {
+            filename: "components/ui/drawer-swipe-area.tsx",
+            relativePath: "components/ui/drawer-swipe-area.tsx",
+            lang: "tsx",
+        },
     ],
     advancedLeftRight: [
         {
@@ -79,6 +84,18 @@ export const sectionFiles = {
         {
             filename: "components/ui/drawer.tsx",
             relativePath: "components/ui/drawer.tsx",
+            lang: "tsx",
+        },
+        {
+            filename: "components/ui/drawer-swipe-area.tsx",
+            relativePath: "components/ui/drawer-swipe-area.tsx",
+            lang: "tsx",
+        },
+    ],
+    swipeAreaComponent: [
+        {
+            filename: "components/ui/drawer-swipe-area.tsx",
+            relativePath: "components/ui/drawer-swipe-area.tsx",
             lang: "tsx",
         },
     ],

@@ -8,10 +8,9 @@ import {
     DrawerDescription,
     DrawerFooter,
     DrawerHeader,
-    DrawerPopup,
-    DrawerSwipeArea,
     DrawerTitle,
 } from "@/components/ui/drawer"
+import { DrawerSwipeArea } from "@/components/ui/drawer-swipe-area"
 
 const directionConfig = {
     left: {
@@ -64,23 +63,21 @@ export function DrawerSwipe() {
                                     Swipe from the {direction} edge to open the drawer.
                                 </p>
                             </div>
-                            <DrawerPopup>
-                                <DrawerContent>
-                                    <DrawerHeader>
-                                        <DrawerTitle>{config.title}</DrawerTitle>
-                                        <DrawerDescription>{config.description}</DrawerDescription>
-                                    </DrawerHeader>
-                                    <div className="px-4 pb-2">
-                                        <div className="rounded-2xl border bg-background p-4 text-sm leading-6 text-muted-foreground">
-                                            This panel opens only from the{" "}
-                                            <span className="font-medium text-foreground">{direction}</span> swipe area.
-                                        </div>
+                            <DrawerContent>
+                                <DrawerHeader>
+                                    <DrawerTitle>{config.title}</DrawerTitle>
+                                    <DrawerDescription>{config.description}</DrawerDescription>
+                                </DrawerHeader>
+                                <div className="px-4 pb-2">
+                                    <div className="rounded-2xl border bg-background p-4 text-sm leading-6 text-muted-foreground">
+                                        This panel opens only from the{" "}
+                                        <span className="font-medium text-foreground">{direction}</span> swipe area.
                                     </div>
-                                    <DrawerFooter>
-                                        <DrawerClose render={<Button variant="outline">Close</Button>} />
-                                    </DrawerFooter>
-                                </DrawerContent>
-                            </DrawerPopup>
+                                </div>
+                                <DrawerFooter>
+                                    <DrawerClose render={<Button variant="outline">Close</Button>} />
+                                </DrawerFooter>
+                            </DrawerContent>
                         </Drawer>
                     )
                 })}

@@ -9,6 +9,7 @@ import { DrawerBasicDemo } from "./_components/basic-drawer"
 import { DrawerDirectionsDemo } from "./_components/drawer-directions"
 import { DrawerResponsiveDemo } from "./_components/drawer-responsive"
 import { DrawerRtlDemo } from "./_components/drawer-rtl"
+import { SwipeAreaSource } from "./_components/swipe-area-source"
 
 const category = "drawer"
 const pagePath = "/base-ui/drawer"
@@ -21,6 +22,7 @@ export default async function Page() {
         rtlSectionFiles,
         advancedTopBottomSectionFiles,
         advancedLeftRightSectionFiles,
+        swipeAreaComponentFiles,
     ] = await Promise.all([
         loadSectionFiles(sectionFiles.basic),
         loadSectionFiles(sectionFiles.directions),
@@ -28,7 +30,11 @@ export default async function Page() {
         loadSectionFiles(sectionFiles.rtl),
         loadSectionFiles(sectionFiles.advancedTopBottom),
         loadSectionFiles(sectionFiles.advancedLeftRight),
+        loadSectionFiles(sectionFiles.swipeAreaComponent),
     ])
+
+    const swipeAreaFileData = swipeAreaComponentFiles.filesData[0]
+    const swipeAreaFileHtml = swipeAreaComponentFiles.filesWithHtml[0]
 
     return (
         <main className="mx-auto flex min-h-svh w-full max-w-5xl flex-col gap-8 px-6 py-10">
@@ -118,6 +124,17 @@ export default async function Page() {
                         <span className="font-mono text-foreground"> opposite direction</span> for the data attribute to
                         target the correct area.
                     </div>
+                    {swipeAreaFileData && swipeAreaFileHtml ? (
+                        <SwipeAreaSource
+                            filename={swipeAreaFileData.filename}
+                            code={swipeAreaFileData.code}
+                            html={swipeAreaFileHtml.html}
+                            lineCount={swipeAreaFileHtml.lineCount}
+                            category={category}
+                            sectionName="SwipeArea Component"
+                            pagePath={pagePath}
+                        />
+                    ) : null}
                     <DocSection
                         title="SwipeArea - Left / Right"
                         description="Open the drawer only from left and right edge swipe areas."
